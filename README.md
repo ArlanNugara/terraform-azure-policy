@@ -71,6 +71,17 @@ The Terraform project is configured to work on the following principle
 
 ## Understanding Policy code
 
+The provider config for backend. You need to replace "<Your Value here>" with your own values.
+
+```
+  backend "azurerm" {
+    resource_group_name  = "<Your Value here>"
+    storage_account_name = "<Your Value here>"
+    container_name       = "<Your Value here>"
+    key                  = "<Your Value here>"
+  }
+```
+
 The policy files call the generic module. Here's example of calling the module **allowed_regions**
 
 ```
