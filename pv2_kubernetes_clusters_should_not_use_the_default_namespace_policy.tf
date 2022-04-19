@@ -20,7 +20,7 @@ module "pv2_kubernetes_clusters_should_not_use_the_default_namespace_policy" {
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "Audit",
         "details" : {
           "constraintTemplate" : "https://store.policy.core.windows.net/kubernetes/block-default-namespace/v1/template.yaml",
           "constraint" : "https://store.policy.core.windows.net/kubernetes/block-default-namespace/v1/constraint.yaml",

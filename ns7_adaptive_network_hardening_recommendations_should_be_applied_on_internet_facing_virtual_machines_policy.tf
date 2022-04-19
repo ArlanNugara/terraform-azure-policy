@@ -16,7 +16,7 @@ module "ns7_adaptive_network_hardening_recommendations_should_be_applied_on_inte
         "equals" : "Microsoft.Compute/virtualMachines"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "f9f0eed0-f143-47bf-b856-671ea2eeed62",

@@ -16,7 +16,7 @@ module "ns5_azure_ddos_protection_standard_should_be_enabled_policy" {
         "equals" : "microsoft.network/virtualNetworks"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "e3de1cc0-f4dd-3b34-e496-8b5381ba2d70",

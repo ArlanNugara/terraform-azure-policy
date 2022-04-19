@@ -16,7 +16,7 @@ module "im6_mfa_should_be_enabled_accounts_with_write_permissions_on_your_subscr
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "57e98606-6b1e-6193-0e3d-fe621387c16b",

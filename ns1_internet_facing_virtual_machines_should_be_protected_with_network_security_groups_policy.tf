@@ -19,7 +19,7 @@ module "ns1_internet_facing_virtual_machines_should_be_protected_with_network_se
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "483f12ed-ae23-447e-a2de-a67a10db4353",

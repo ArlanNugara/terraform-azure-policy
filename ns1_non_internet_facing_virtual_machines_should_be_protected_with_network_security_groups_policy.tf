@@ -19,7 +19,7 @@ module "ns1_non_internet_facing_virtual_machines_should_be_protected_with_networ
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "a9341235-9389-42f0-a0bf-9bfb57960d44",

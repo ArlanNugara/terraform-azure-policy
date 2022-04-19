@@ -48,7 +48,7 @@ module "pv4_guest_attestation_extension_should_be_installed_on_supported_windows
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Compute/virtualMachines/extensions",
           "existenceCondition" : {

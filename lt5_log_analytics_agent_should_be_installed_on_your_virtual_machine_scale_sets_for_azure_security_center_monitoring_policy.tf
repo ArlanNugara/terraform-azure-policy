@@ -18,7 +18,7 @@ module "lt5_log_analytics_agent_should_be_installed_on_your_virtual_machine_scal
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "45cfe080-ceb1-a91e-9743-71551ed24e94",

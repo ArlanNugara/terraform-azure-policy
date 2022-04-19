@@ -16,7 +16,7 @@ module "im6_mfa_should_be_enabled_on_accounts_with_read_permissions_on_your_subs
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "151e82c5-5341-a74b-1eb0-bc38d2c84bb5",

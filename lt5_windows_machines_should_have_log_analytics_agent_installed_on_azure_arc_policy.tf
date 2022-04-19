@@ -28,7 +28,7 @@ module "lt5_windows_machines_should_have_log_analytics_agent_installed_on_azure_
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.GuestConfiguration/guestConfigurationAssignments",
           "name" : "WindowsLogAnalyticsAgentInstalled",

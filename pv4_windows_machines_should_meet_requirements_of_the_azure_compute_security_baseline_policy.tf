@@ -211,7 +211,7 @@ module "pv4_windows_machines_should_meet_requirements_of_the_azure_compute_secur
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.GuestConfiguration/guestConfigurationAssignments",
           "name" : "AzureWindowsBaseline",

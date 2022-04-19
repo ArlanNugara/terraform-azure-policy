@@ -19,7 +19,7 @@ module "ns3_ip_forwarding_on_your_virtual_machine_should_be_disabled_policy" {
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "c3b51c94-588b-426b-a892-24696f9e54cc",

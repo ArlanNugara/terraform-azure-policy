@@ -24,7 +24,7 @@ module "es3_endpoint_protection_health_issues_should_be_resolved_on_your_machine
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "37a3689a-818e-4a0e-82ac-b1392b9bb000",

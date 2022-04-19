@@ -210,7 +210,7 @@ module "dp3_windows_web_servers_should_be_configured_to_use_secure_communication
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.GuestConfiguration/guestConfigurationAssignments",
           "name" : "AuditSecureProtocol",

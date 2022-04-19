@@ -19,7 +19,7 @@ module "ns1_all_network_ports_should_be_restricted_on_network_security_groups_as
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "3b20e985-f71f-483b-b078-f30d73936d43",

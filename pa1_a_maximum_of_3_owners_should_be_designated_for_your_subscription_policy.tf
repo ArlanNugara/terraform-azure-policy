@@ -16,7 +16,7 @@ module "pa1_a_maximum_of_3_owners_should_be_designated_for_your_subscription_pol
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "Audit",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "6f90a6d6-d4d6-0794-0ec1-98fa77878c2e",

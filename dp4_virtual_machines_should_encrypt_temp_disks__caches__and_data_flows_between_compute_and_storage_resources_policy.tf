@@ -19,7 +19,7 @@ module "dp4_virtual_machines_should_encrypt_temp_disks__caches__and_data_flows_b
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "d57a4221-a804-52ca-3dea-768284f06bb7",

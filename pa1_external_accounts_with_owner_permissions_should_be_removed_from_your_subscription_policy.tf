@@ -16,7 +16,7 @@ module "pa1_external_accounts_with_owner_permissions_should_be_removed_from_your
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "c3b6ae71-f1f0-31b4-e6c1-d5951285d03d",

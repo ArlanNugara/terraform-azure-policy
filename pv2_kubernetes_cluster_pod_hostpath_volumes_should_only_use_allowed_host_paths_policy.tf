@@ -20,7 +20,7 @@ module "pv2_kubernetes_cluster_pod_hostpath_volumes_should_only_use_allowed_host
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "Audit",
         "details" : {
           "constraintTemplate" : "https://store.policy.core.windows.net/kubernetes/allowed-host-paths/v2/template.yaml",
           "constraint" : "https://store.policy.core.windows.net/kubernetes/allowed-host-paths/v2/constraint.yaml",

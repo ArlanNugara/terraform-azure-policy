@@ -20,7 +20,7 @@ module "pv2_kubernetes_cluster_pods_should_only_use_approved_host_network_and_po
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "Audit",
         "details" : {
           "constraintTemplate" : "https://store.policy.core.windows.net/kubernetes/host-network-ports/v2/template.yaml",
           "constraint" : "https://store.policy.core.windows.net/kubernetes/host-network-ports/v2/constraint.yaml",

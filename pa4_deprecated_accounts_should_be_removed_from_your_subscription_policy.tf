@@ -16,7 +16,7 @@ module "pa4_deprecated_accounts_should_be_removed_from_your_subscription_policy"
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "00c6d40b-e990-6acf-d4f3-471e747a27c4",

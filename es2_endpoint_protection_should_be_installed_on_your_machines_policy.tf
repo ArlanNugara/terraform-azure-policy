@@ -24,7 +24,7 @@ module "es2_endpoint_protection_should_be_installed_on_your_machines_policy" {
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "4fb67663-9ab9-475d-b026-8c544cced439",

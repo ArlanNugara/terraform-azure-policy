@@ -16,7 +16,7 @@ module "ns1_subnets_should_be_associated_with_a_network_security_group_policy" {
         "equals" : "Microsoft.Network/virtualNetworks/subnets"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "eade5b56-eefd-444f-95c8-23f29e5d93cb",

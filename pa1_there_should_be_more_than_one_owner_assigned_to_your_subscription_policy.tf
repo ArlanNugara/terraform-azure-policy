@@ -16,7 +16,7 @@ module "pa1_there_should_be_more_than_one_owner_assigned_to_your_subscription_po
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "2c79b4af-f830-b61e-92b9-63dfa30f16e4",

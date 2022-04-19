@@ -16,7 +16,7 @@ module "lt3_resource_logs_in_azure_data_lake_store_should_be_enabled_policy" {
         "equals" : "Microsoft.DataLakeStore/accounts"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Insights/diagnosticSettings",
           "existenceCondition" : {

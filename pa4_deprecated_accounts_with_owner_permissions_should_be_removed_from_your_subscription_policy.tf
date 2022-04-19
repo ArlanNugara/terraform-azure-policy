@@ -16,7 +16,7 @@ module "pa4_deprecated_accounts_with_owner_permissions_should_be_removed_from_yo
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "e52064aa-6853-e252-a11e-dffc675689c2",

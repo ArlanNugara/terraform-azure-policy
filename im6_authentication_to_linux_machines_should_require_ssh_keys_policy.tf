@@ -321,7 +321,7 @@ module "im6_authentication_to_linux_machines_should_require_ssh_keys_policy" {
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.GuestConfiguration/guestConfigurationAssignments",
           "name" : "LinuxNoPasswordForSSH",

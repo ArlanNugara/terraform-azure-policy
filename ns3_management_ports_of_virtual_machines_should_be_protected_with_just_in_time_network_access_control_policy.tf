@@ -16,7 +16,7 @@ module "ns3_management_ports_of_virtual_machines_should_be_protected_with_just_i
         "equals" : "Microsoft.Compute/virtualMachines"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "805651bc-6ecd-4c73-9b55-97a19d0582d0",

@@ -20,7 +20,7 @@ module "dp3_kubernetes_clusters_should_be_accessible_only_over_https_policy" {
         ]
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "Deny",
         "details" : {
           "constraintTemplate" : "https://store.policy.core.windows.net/kubernetes/ingress-https-only/v1/template.yaml",
           "constraint" : "https://store.policy.core.windows.net/kubernetes/ingress-https-only/v1/constraint.yaml",

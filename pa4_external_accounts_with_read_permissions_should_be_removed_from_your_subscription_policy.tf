@@ -16,7 +16,7 @@ module "pa4_external_accounts_with_read_permissions_should_be_removed_from_your_
         "equals" : "Microsoft.Resources/subscriptions"
       },
       "then" : {
-        "effect" : "[parameters('effect')]",
+        "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Security/assessments",
           "name" : "a8c6a4ad-d51e-88fe-2979-d3ee3c864f8b",
