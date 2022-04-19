@@ -28,9 +28,3 @@ variable "policy_definition_parameters" {
   default     = "{}"
   description = "Policy definition parameters"
 }
-
-variable "policy_management_scope" {
-  description = "Scope for Policy Definitions"
-  type        = string
-  default     = "alvarnet-mg"
-}
