@@ -175,7 +175,7 @@ module "pv4_windows_machines_should_meet_requirements_of_the_azure_compute_secur
           {
             "allOf" : [
               {
-                "value" : "[parameters('IncludeArcMachines')]",
+                "value" : "false",
                 "equals" : "true"
               },
               {

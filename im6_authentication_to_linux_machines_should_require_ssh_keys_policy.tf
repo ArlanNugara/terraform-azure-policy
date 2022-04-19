@@ -285,7 +285,7 @@ module "im6_authentication_to_linux_machines_should_require_ssh_keys_policy" {
           {
             "allOf" : [
               {
-                "value" : "[parameters('IncludeArcMachines')]",
+                "value" : "false",
                 "equals" : "true"
               },
               {

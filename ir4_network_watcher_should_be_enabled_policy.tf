@@ -9,6 +9,23 @@ module "ir4_network_watcher_should_be_enabled_policy" {
     }
   )
 
+  parameters = jsonencode(
+    {
+      "listOfLocations" : {
+        "type" : "Array",
+        "metadata" : {
+          "displayName" : "[Deprecated]: Locations",
+          "description" : "Audit if Network Watcher is not enabled for region(s).",
+          "strongType" : "location",
+          "deprecated" : true
+        },
+        "defaultValue" : [
+          "canadacentral"
+        ]
+      }
+    }
+  )
+
   policy_definition_rule = jsonencode(
     {
       "if" : {
@@ -19,7 +36,7 @@ module "ir4_network_watcher_should_be_enabled_policy" {
         "effect" : "AuditIfNotExists",
         "details" : {
           "type" : "Microsoft.Network/networkWatchers",
-          "resourceGroupName" : "[parameters('resourceGroupName')]",
+          "resourceGroupName" : "NetworkWatcherRG",
           "existenceCondition" : {
             "field" : "location",
             "equals" : "[field('location')]"

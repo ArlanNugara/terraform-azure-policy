@@ -9,6 +9,23 @@ module "dp3_windows_web_servers_should_be_configured_to_use_secure_communication
     }
   )
 
+  parameters = jsonencode(
+    {
+      "MinimumTLSVersion" : {
+        "type" : "String",
+        "metadata" : {
+          "displayName" : "Minimum TLS version",
+          "description" : "The minimum TLS protocol version that should be enabled. Windows web servers with lower TLS versions will be marked as non-compliant."
+        },
+        "allowedValues" : [
+          "1.1",
+          "1.2"
+        ],
+        "defaultValue" : "1.1"
+      }
+    }
+  )
+
   policy_definition_rule = jsonencode(
     {
       "if" : {
@@ -174,7 +191,7 @@ module "dp3_windows_web_servers_should_be_configured_to_use_secure_communication
           {
             "allOf" : [
               {
-                "value" : "[parameters('IncludeArcMachines')]",
+                "value" : "false",
                 "equals" : "true"
               },
               {

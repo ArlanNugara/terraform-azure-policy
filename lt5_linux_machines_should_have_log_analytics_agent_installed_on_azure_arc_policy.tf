@@ -14,7 +14,7 @@ module "lt5_linux_machines_should_have_log_analytics_agent_installed_on_azure_ar
       "if" : {
         "allOf" : [
           {
-            "value" : "[parameters('IncludeArcMachines')]",
+            "value" : "false",
             "equals" : "true"
           },
           {

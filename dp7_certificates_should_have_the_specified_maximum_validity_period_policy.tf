@@ -9,6 +9,19 @@ module "dp7_certificates_should_have_the_specified_maximum_validity_period_polic
     }
   )
 
+  parameters = jsonencode(
+    {
+      "maximumValidityInMonths" : {
+        "type" : "Integer",
+        "metadata" : {
+          "displayName" : "The maximum validity in months",
+          "description" : "The limit to how long a certificate may be valid for. Certificates with lengthy validity periods aren't best practice."
+        },
+        "defaultValue" : 12
+      }
+    }
+  )
+
   policy_definition_rule = jsonencode(
     {
       "if" : {

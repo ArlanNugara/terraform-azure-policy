@@ -14,7 +14,7 @@ module "lt5_windows_machines_should_have_log_analytics_agent_installed_on_azure_
       "if" : {
         "allOf" : [
           {
-            "value" : "[parameters('IncludeArcMachines')]",
+            "value" : "false",
             "equals" : "true"
           },
           {
