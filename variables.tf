@@ -1,26 +1,9 @@
-/*
-  ----------
-  Org Prefix
-  ----------
-*/
-
 variable "client" {
   type        = string
-  description = "Organization Name Prefix"
+  description = "Organization Name Prefix like ALV for Alvarnet"
 }
 
-/*
-  ---------------
-  scope of policy
-  ---------------
-*/
-
-variable "policy_management_scope" {
-  description = "Scope for Policy Definitions"
+variable "subscription_id" {
   type        = string
-}
-
-variable "initiative_management_scope" {
-  description = "Scope for Policy Initiatives"
-  type        = string
+  description = "The subscription ID where the policy should be deployed"
 }
