@@ -95,6 +95,21 @@ module "pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy" 
     }
   )
 
+
+The policy files call the generic module. Here's example of calling the module **allowed_regions**
+
+```
+module "allowed_regions_policy" {
+  source                         = "./modules/generic_policy_module"
+  policy_definition_name         = "${var.org_prefix}${var.allowed_regions_policy_name}"
+  policy_definition_display_name = "${var.org_prefix}${var.allowed_regions_policy_display_name}"
+  policy_definition_description  = var.allowed_regions_policy_description
+  policy_definition_metadata = jsonencode(
+    {
+      "category" : "${var.allowed_regions_policy_category}"
+    }
+  )
+
   policy_definition_rule = jsonencode(
     {
       "if" : {
@@ -106,6 +121,17 @@ module "pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy" 
           {
             "field" : "kind",
             "like" : "*api"
+            "field" : "location",
+            "notIn" : "${var.allowed_regions}"
+          },
+          {
+            "field" : "location",
+            "notEquals" : "global"
+          },
+          {
+            "field" : "type",
+            "notEquals" : "Microsoft.AzureActiveDirectory/b2cDirectories"
+
           }
         ]
       },
@@ -118,6 +144,7 @@ module "pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy" 
             "notEquals" : "*"
           }
         }
+        "effect" : "${var.allowed_regions_policy_effect}"
       }
     }
   )
@@ -132,6 +159,7 @@ resource "azurerm_policy_definition" "policy" {
   description         = var.policy_definition_description
   policy_type         = "Custom"
   mode                = "All"
+  management_group_id = var.policy_management_scope
   metadata            = var.policy_definition_metadata
   policy_rule         = var.policy_definition_rule
   parameters          = var.policy_definition_parameters
@@ -145,9 +173,9 @@ resource "azurerm_policy_set_definition" "policy-set-definition" {
   name                = "${var.org_prefix}Baseline Azure Policy Set Definition"
   policy_type         = "Custom"
   display_name        = "${var.org_prefix}Baseline Azure Policy Set Definition"
-
+  management_group_id = var.policy_management_scope
   policy_definition_reference {
-    policy_definition_id = module.pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy.policy_id
+    policy_definition_id = module.pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy.policy_id  
   }
 .........truncated.........
 ```
@@ -167,6 +195,7 @@ resource "azurerm_management_group_policy_assignment" "policy-assignment" {
 }
 ```
 
+
 # Run the code
 
 ## Authenticate Azure CLI
@@ -177,5 +206,7 @@ Hit the command **az login** from Comamnd Prompt or Terminal depending upon your
 
 Fire the below command to create the resources using Bicep script
 
+
 > terraform plan -var client={Your Org Name} -var subscription_id={Your subscription ID} -out policies.json
 > terraform apply policies.json
+
