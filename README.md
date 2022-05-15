@@ -67,7 +67,6 @@ The Terraform project is configured to work on the following principle
 
 - The **main.tf** creates the Policy Initiative.
 - The modules directory contains a generic policy definition template which every policy files calls.
-- The **policies.auto.tfvars** file contains values of all variables defined. You need to exchange **"<Your Value Here>"** with your values or change any values you deemed fit as per your requirement.
 
 ## Understanding Policy code
 
@@ -82,6 +81,21 @@ The provider config for backend. You need to replace "<Your Value here>" with yo
   }
 ```
 
+The policy files call the generic module. Here's example of calling the module **pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy**
+
+```
+module "pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy" {
+  source                         = "./modules/generic_policy_module"
+  policy_definition_name         = "${var.client}-CORS should not allow every resource to access your API App"
+  policy_definition_display_name = "${var.client}-CORS should not allow every resource to access your API App"
+  policy_definition_description  = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your API app. Allow only required domains to interact with your API app."
+  policy_definition_metadata = jsonencode(
+    {
+      "category" : "App Service"
+    }
+  )
+
+
 The policy files call the generic module. Here's example of calling the module **allowed_regions**
 
 ```
@@ -95,11 +109,18 @@ module "allowed_regions_policy" {
       "category" : "${var.allowed_regions_policy_category}"
     }
   )
+
   policy_definition_rule = jsonencode(
     {
       "if" : {
         "allOf" : [
           {
+            "field" : "type",
+            "equals" : "Microsoft.Web/sites"
+          },
+          {
+            "field" : "kind",
+            "like" : "*api"
             "field" : "location",
             "notIn" : "${var.allowed_regions}"
           },
@@ -110,10 +131,19 @@ module "allowed_regions_policy" {
           {
             "field" : "type",
             "notEquals" : "Microsoft.AzureActiveDirectory/b2cDirectories"
+
           }
         ]
       },
       "then" : {
+        "effect" : "AuditIfNotExists",
+        "details" : {
+          "type" : "Microsoft.Web/sites/config",
+          "existenceCondition" : {
+            "field" : "Microsoft.Web/sites/config/web.cors.allowedOrigins[*]",
+            "notEquals" : "*"
+          }
+        }
         "effect" : "${var.allowed_regions_policy_effect}"
       }
     }
@@ -144,9 +174,8 @@ resource "azurerm_policy_set_definition" "policy-set-definition" {
   policy_type         = "Custom"
   display_name        = "${var.org_prefix}Baseline Azure Policy Set Definition"
   management_group_id = var.policy_management_scope
-
   policy_definition_reference {
-    policy_definition_id = module.allowed_regions_policy.policy_id
+    policy_definition_id = module.pv2_cors_should_not_allow_every_resource_to_access_your_api_app_policy.policy_id  
   }
 .........truncated.........
 ```
@@ -155,11 +184,10 @@ The **main.tf** file contains resource block for creating the policy initiative 
 
 ```
 resource "azurerm_management_group_policy_assignment" "policy-assignment" {
-  name                 = "${var.org_prefix} Policy Initiative"
+  name                 = "${var.client} Policy Initiative"
   policy_definition_id = azurerm_policy_set_definition.policy-set-definition.id
-  management_group_id  = var.initiative_management_scope
   description          = "This policy enables a set of definitions that can be deployed."
-  display_name         = "${var.org_prefix} Baseline Azure Policy Initiative"
+  display_name         = "${var.client} Baseline Azure Policy Initiative"
   location             = "canadacentral"
   identity {
     type = "SystemAssigned"
@@ -167,49 +195,6 @@ resource "azurerm_management_group_policy_assignment" "policy-assignment" {
 }
 ```
 
-A glance at the tfvars file
-
-```
-// Allowed Regions Policy Details
-allowed_regions_policy_name         = "Allowed Azure Regions"
-allowed_regions_policy_display_name = "Allowed Azure Regions"
-allowed_regions_policy_description  = "This policy allows or audit resources to be created in the specific locations."
-allowed_regions_policy_category     = "General"
-allowed_regions_policy_effect       = "audit"
-```
-
-# Policies that are created
-
-1. Allowed Regions
-2. Allowed Resource Types
-3. Allowed SQL Version
-4. Allowed Storage Account SKU
-5. Allowed VM Extensions
-6. Allowed Subnets for Public IP
-7. Allowed VM OS and version
-8. Allowed VM SKU
-9. DDOS Protection
-10. Diagnostics Settings
-11. Diagnostic settings logs to be send to Log Analytics WOrkspace
-12. Firewall Internet Traffic
-13. Key Vault Purge Protection
-14. Key Vault soft delete
-15. VM NIC IP Forwarding
-16. Enable Network Watchers
-17. NSG for every Subnet
-18. NSG Inbound rules
-19. SQL Database Private endpoint
-20. SQL Database TLS version
-21. SQL server public network access
-22. Storage Account Secure Transfer Settings
-23. Storage Account Key Expiry
-24. Storage Account Network Access
-25. Mandatory Tags
-26. Optional Tags
-27. Internet facing VM NSG
-28. VM managed disk
-29. VM management port
-30. VM encryption
 
 # Run the code
 
@@ -221,5 +206,7 @@ Hit the command **az login** from Comamnd Prompt or Terminal depending upon your
 
 Fire the below command to create the resources using Bicep script
 
-> terraform plan
-> terraform apply
+
+> terraform plan -var client={Your Org Name} -var subscription_id={Your subscription ID} -out policies.json
+> terraform apply policies.json
+
