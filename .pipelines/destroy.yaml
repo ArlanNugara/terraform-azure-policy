@@ -1,0 +1,99 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+- name: Apply
+  displayName: Please choose Apply Option
+  type: string
+  values:
+  - No
+  - Yes
+
+variables:
+  - name: AZURE_SERVICE_CONNECTION
+    value: 'Your value here'
+  - group: 'Your value here'
+
+stages:
+  - stage: planapply
+    displayName: 'Run Plan and Apply'
+    jobs:
+      - job: terraform_plan_apply
+        displayName: 'Destroy Azure VM Extensions Policy'
+        timeoutInMinutes: 360
+        steps:
+        - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+          displayName: 'Install latest Terraform'
+
+        - task: AzureCLI@2
+          condition: and(succeeded(), eq('${{ parameters.Apply }}', 'No'))
+          displayName: 'Terraform : FMT'
+          inputs:
+            azureSubscription: $(AZURE_SERVICE_CONNECTION)
+            workingDirectory: $(Build.Repository.LocalPath)
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              terraform fmt -check -recursive -diff
+
+        - task: AzureCLI@2
+          displayName: 'Terraform : INIT'
+          inputs:
+            azureSubscription: $(AZURE_SERVICE_CONNECTION)
+            workingDirectory: $(Build.Repository.LocalPath)
+            scriptType: bash
+            addSpnToEnvironment: true
+            scriptLocation: inlineScript
+            inlineScript: |
+              export ARM_CLIENT_ID=$(ARM-CLIENT-ID)
+              export ARM_CLIENT_SECRET=$(ARM-CLIENT-SECRET)
+              export ARM_SUBSCRIPTION_ID=$(ARM-SUBSCRIPTION-ID)
+              export ARM_TENANT_ID=$(ARM-TENANT-ID)
+              terraform init
+
+        - task: AzureCLI@2
+          condition: and(succeeded(), eq('${{ parameters.Apply }}', 'No'))
+          displayName: 'Terraform : VALIDATE'
+          inputs:
+            azureSubscription: $(AZURE_SERVICE_CONNECTION)
+            workingDirectory: $(Build.Repository.LocalPath)
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+              terraform validate
+
+        - task: AzureCLI@2
+          displayName: 'Terraform : PLAN'
+          inputs:
+            azureSubscription: $(AZURE_SERVICE_CONNECTION)
+            workingDirectory: $(Build.Repository.LocalPath)
+            scriptType: bash
+            addSpnToEnvironment: true
+            scriptLocation: inlineScript
+            inlineScript: |
+              export ARM_ACCESS_KEY=$(ARM-ACCESS-KEY)
+              export ARM_CLIENT_ID=$(ARM-CLIENT-ID)
+              export ARM_CLIENT_SECRET=$(ARM-CLIENT-SECRET)
+              export ARM_SUBSCRIPTION_ID=$(ARM-SUBSCRIPTION-ID)
+              export ARM_TENANT_ID=$(ARM-TENANT-ID)
+              terraform plan -destroy -out operations.json
+              terraform show -json operations.json
+        
+        - task: AzureCLI@2
+          condition: and(succeeded(), eq('${{ parameters.Apply }}', 'Yes'))
+          displayName: 'Terraform : APPLY'
+          inputs:
+            azureSubscription: $(AZURE_SERVICE_CONNECTION)
+            workingDirectory: $(Build.Repository.LocalPath)
+            scriptType: bash
+            addSpnToEnvironment: true
+            scriptLocation: inlineScript
+            inlineScript: |
+              export ARM_ACCESS_KEY=$(ARM-ACCESS-KEY)
+              export ARM_CLIENT_ID=$(ARM_CLIENT_ID)
+              export ARM_CLIENT_SECRET=$(ARM-CLIENT_SECRET)
+              export ARM_SUBSCRIPTION_ID=$(ARM-SUBSCRIPTION-ID)
+              export ARM_TENANT_ID=$(ARM-TENANT-ID)
+              terraform apply -destroy operations.json
