@@ -62,6 +62,59 @@ An initiative definition is a collection of policy definitions that are tailored
 An assignment is a policy definition or initiative that has been assigned to a specific scope. This scope could range from a management group to an individual resource. The term scope refers to all the resources, resource groups, subscriptions, or management groups that the definition is assigned to. Assignments are inherited by all child resources. This design means that a definition applied to a resource group is also applied to resources in that resource group. However, you can exclude a subscope from the assignment.
 
 
+# Resources Deployed
+
+This project mainly focussed on deploying Azure Virtual Machine Extensions, Built-In and Custom Policy using Terraform. The Policy deploys the Extensions in both Windows and Linux systems as well as Azure ARC VMs. Remediation Tasks only works for **DeployIfNotExists** Policy. Existing systems does not automatically remediate, but is remediated using  Policy Remediation Task. Any new system will automatically have the Extensions installed after deployment. 
+
+Here's the list of VM Extensions being deployed using this IaC code.
+
+- **VM Insights with Azure Monitoring Agent and Data Collection Rule**
+- **VM AAD Join**
+- **VM Dependency Agent**
+- **VM Microsoft Defender for Endpoint**
+- **VM Insights with Azure Monitoring Agent and Data Collection Rule for Azure ARC VM**
+- **VM Insights with Azure Monitoring Agent and Data Collection Rule for Azure VM**
+- **VM Guest Config**
+- **VM Iaas Antimalware**
+
+Here's the List of all other Policy that are deployed.
+
+- **Azure Security Benchmark**  
+- **CIS Microsoft Azure Foundations Benchmark v1.4.0**  
+- **Compute Governance**  
+- **Data Factory Governance**  
+- **Databricks Governance**  
+- **Deploy Diagnostics Settings for Storage Accounts to Log Analytics Workspace**  
+- **Deploy Diagnostics Settings for Supported Resources to Log Analytics Workspace**  
+- **Deploy Service Health Alert Policy**  
+- **General Governance**  
+- **MySQL Governance**  
+- **Network Governance**  
+- **NIST SP 800-53 R5**  
+- **Optional Tags Governance**  
+- **PostgreSQL Governance**  
+- **Required Tags Governance Set**  
+- **SQL Governance**  
+- **Storage Governance**  
+- **Synapse Governance**  
+
+Here are the currently supported OS versions for VM extensions : -
+
+|Publisher  | SKU | Status |
+|:--| :--: | :--: |
+|Ubuntu | 16.04 | Supported |
+|Ubuntu | 18.04 | Supported |
+|Ubuntu | 20.04 | Supported |
+|Ubuntu | 22.04 | Supported |
+|Ubuntu | 24.04 | Not Supported Yet |
+|RHEL | 7*  | Supported |
+|RHEL | 8*  | **Partially Supported** |
+|RHEL | 9*  | Not Supported Yet |
+|Windows  | 2016  | Supported |
+|Windows  | 2019  | Supported |
+|Windows  | 2022  | Supported |
+|Windows  | 10  | Supported |
+
 # Prerequisites
 
 The bootstrap Resources include [Key Vault](#key-vault) and [Storage Account](#azure-storage-account). The Key Vault holds sensitive values which are required by Terraform to authenticate with Azure for deployments. The Storage Account holds the TFSTATE file which is required by Terraform to make changes to the Infrastructure. These resources are outside of Terraform deployment and should **not be deleted or altered** unless required. Terraform does not manage these resources and the resources are not deployed or destroyed by Terraform.
