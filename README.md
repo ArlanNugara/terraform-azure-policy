@@ -181,6 +181,7 @@ Hit the command **az login** from Comamnd Prompt or Terminal depending upon your
 Fire the below command to create the resources using Bicep script
 
 > terraform plan
+
 > terraform apply
 
 ## Apply from Azure DevOps Pipeline
