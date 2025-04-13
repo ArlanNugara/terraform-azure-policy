@@ -69,7 +69,6 @@ This project mainly focussed on deploying Azure Virtual Machine Extensions, Buil
 Here's the list of VM Extensions being deployed using this IaC code.
 
 - **VM Insights with Azure Monitoring Agent and Data Collection Rule**
-- **VM AAD Join**
 - **VM Dependency Agent**
 - **VM Microsoft Defender for Endpoint**
 - **VM Insights with Azure Monitoring Agent and Data Collection Rule for Azure ARC VM**
